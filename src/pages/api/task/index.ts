@@ -9,7 +9,6 @@ export default async (req:NextApiRequest,res:NextApiResponse)=>{
             try {
                 const query = 'SELECT * FROM tasks'
                 const response = await connect.query(query)
-                console.log(response.rows[0])
                 return res.status(200).json(response.rows)
             } catch (error:any) {
                 res.status(400).json({ error:error.message })
@@ -17,7 +16,7 @@ export default async (req:NextApiRequest,res:NextApiResponse)=>{
         case 'POST':
             try {
                 const {title, description} = body;
-                const query = 'INSERT INTO public.tasks(title, description) VALUES ($1,$2) RETURNING *'
+                const query = 'INSERT INTO tasks(title, description) VALUES ($1,$2) RETURNING *'
                 const values = [title,description]
                 const response = await connect.query(query,values)
                 return res.status(200).json(response.rows[0])
