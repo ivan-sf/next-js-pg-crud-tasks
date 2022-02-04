@@ -8,9 +8,9 @@ export default async (req:NextApiRequest,res:NextApiResponse)=>{
     switch (method) {
         case 'GET':
             try {
-                const text = "SELECT * FROM tasks WHERE id = $1"
+                const sql = "SELECT * FROM tasks WHERE id = $1"
                 const values = [query.id]
-                const response = await connect.query(text,values)
+                const response = await connect.query(sql,values)
                 if (response.rows.length === 0)
                     res.status(400).json({message:"Task not found"})
                 return res.status(200).json(response.rows[0])    
@@ -20,9 +20,9 @@ export default async (req:NextApiRequest,res:NextApiResponse)=>{
         case 'PUT':
             try {
                 const { title,description } = body
-                const text = "UPDATE tasks SET title=$1, description=$2 WHERE id = $3 RETURNING *"
+                const sql = "UPDATE tasks SET title=$1, description=$2 WHERE id = $3 RETURNING *"
                 const values = [title,description,query.id]
-                const response = await connect.query(text,values)
+                const response = await connect.query(sql,values)
                 if (response.rowCount === 0)
                     res.status(400).json({message:"Task not found"})
                 return res.status(200).json(response.rows[0])    
@@ -31,9 +31,9 @@ export default async (req:NextApiRequest,res:NextApiResponse)=>{
             }
         case 'DELETE':
             try {
-                const text = "DELETE FROM tasks WHERE id = $1 RETURNING *"
+                const sql = "DELETE FROM tasks WHERE id = $1 RETURNING *"
                 const values = [query.id]
-                const response = await connect.query(text,values)
+                const response = await connect.query(sql,values)
                 if (response.rowCount === 0)
                     res.status(400).json({message:"Task not found"})
                 return res.status(200).json(response.rows[0])    
