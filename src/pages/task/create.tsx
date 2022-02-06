@@ -11,7 +11,7 @@ export default ()=>{
     const handleChange = ({target:{name,value}}:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setTask({...task,[name]:value})
 
     const createTask = async(task:Task)=>{
-        const res = await fetch('http://localhost:3000/api/task',{
+        await fetch('http://localhost:3000/api/task',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
