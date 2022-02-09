@@ -1,4 +1,5 @@
 import { Button, Card, Divider, Grid, Row, Text } from '@nextui-org/react'
+import {useRouter} from 'next/router'
 import { Task } from 'src/interfaces/Task'
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
 }
 
 function TaskList({tasks}:Props){
-    console.log(tasks)
+    const router = useRouter()
     return(
         <Grid.Container gap={2} justify="center"> 
             <Row>
@@ -36,7 +37,7 @@ function TaskList({tasks}:Props){
                   <Card.Footer>
                     <Row justify="flex-end">
                       <Button size="sm" color="error">Delete</Button>
-                      <Button size="sm" color="warning">Update</Button>
+                      <Button size="sm" color="warning" onClick={()=>router.push(`/tasks/update/${item.id}`)}>Update</Button>
                     </Row>                   
                   </Card.Footer>
                 </Card>

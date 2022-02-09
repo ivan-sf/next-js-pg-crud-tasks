@@ -1,6 +1,6 @@
 import { Card,Text, Divider, Row, Button, Grid, Input, Spacer, Textarea } from '@nextui-org/react';
 import router from 'next/router';
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react'
 import Layout from 'src/components/Layout';
 import { Task } from 'src/interfaces/Task';
 export default ()=>{
@@ -33,6 +33,17 @@ export default ()=>{
         }
     }
 
+    const loadData = async(id:string)=>{
+        const res = await fetch(`http://localhost:3000/api/task/${id}`)
+        const task = await res.json()
+        setTask({title:task.title,description:task.description})
+        console.log(task) 
+    }
+
+    useEffect(()=>{
+        if(typeof router.query.id === 'string') loadData(router.query.id)
+    },[router.query])
+
     return(
         <Layout>
             <Grid.Container gap={2} justify='center'> 
@@ -40,14 +51,14 @@ export default ()=>{
                 <form onSubmit={handleSubmit}>
                     <Card css={{ w: "330px" }}>
                         <Card.Header>
-                            <Text b>Card Title</Text>
+                            <Text b>New Task</Text>
                         </Card.Header>
 
                         <Divider/>
                         <Card.Body css={{ py: '$10' }}>
-                                <Input autoFocus clearable bordered type="text" name="title" onChange={handleChange}/>
+                                <Input initialValue={task.title} autoFocus clearable bordered type="text" name="title" onChange={handleChange}/>
                                 <Spacer y={1} />
-                                <Textarea name="description" placeholder="Enter your amazing ideas." onChange={handleChange}/>
+                                <Textarea initialValue={task.description} name="description" placeholder="Enter your amazing ideas." onChange={handleChange}/>
                         </Card.Body>
 
                         <Divider/>
