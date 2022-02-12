@@ -8,15 +8,16 @@ interface Props {
 
 function TaskList({tasks}:Props){
     const router = useRouter()
+    
     return(
         <Grid.Container gap={2} justify="center"> 
             <Row>
                 <Text h1 style={{textAlign:'center',width:'100%'}}>Tasks</Text>
             </Row>
             {tasks.map((item,index)=>(
-              <Grid>  
+              <Grid key={item.id}>  
                 <Card css={{ w: "330px" }}>
-                  <Card.Header key={index}>
+                  <Card.Header >
 
                   <Text b>{item.title}</Text>
                   </Card.Header>
@@ -36,7 +37,6 @@ function TaskList({tasks}:Props){
 
                   <Card.Footer>
                     <Row justify="flex-end">
-                      <Button size="sm" color="error">Delete</Button>
                       <Button size="sm" color="warning" onClick={()=>router.push(`/tasks/update/${item.id}`)}>Update</Button>
                     </Row>                   
                   </Card.Footer>

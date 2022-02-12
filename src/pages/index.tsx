@@ -9,6 +9,7 @@ interface Props{
 }
 
 export default function index({tasks}:Props){
+
   return(
     <Layout>
       {tasks.length === 0 ? (
